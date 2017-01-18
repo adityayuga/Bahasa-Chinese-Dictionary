@@ -1,0 +1,34 @@
+{
+  "name": "kamusAPI",
+  "version": "0.0.1",
+  "description": "API for kamus Indo-China China-Indo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adityayuga/kamus.git"
+  },
+  "keywords": [
+    "kamus",
+    "china",
+    "indo",
+    "dictionary",
+    "language",
+    "adityayuga",
+    "aksiomaekaristi"
+  ],
+  "author": "Aditya Yuga Pradhana",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adityayuga/kamus/issues"
+  },
+  "homepage": "https://github.com/adityayuga/kamus#readme",
+  "dependencies": {
+    "boom": "^3.2.1",
+    "hapi": "^13.5.3",
+    "joi": "^8.4.2",
+    "mongoose": "^4.7.6"
+  }
+}
