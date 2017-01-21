@@ -26,8 +26,11 @@
   },
   "homepage": "https://github.com/adityayuga/kamus#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.0",
     "boom": "^3.2.1",
+    "glob": "^7.1.1",
     "hapi": "^13.5.3",
+    "hapi-auth-jwt": "^4.0.0",
     "joi": "^8.4.2",
     "mongoose": "^4.7.6"
   }
