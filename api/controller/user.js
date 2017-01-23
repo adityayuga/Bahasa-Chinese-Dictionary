@@ -8,33 +8,6 @@ const User = require('../model/user').User
 const privateKey = Config.key.privateKey
 const tokenAlgorithms = Config.key.tokenAlgorithms
 
-exports.create = {
-    auth: {
-        strategy: 'token',
-        scope: 'Admin'
-    },
-    validate: {
-        payload: {
-            username: Joi.string().required(),
-            email: Joi.string().email().required(),
-            password: Joi.string().required()
-        }
-    },
-    handler: function(request, reply) {
-        request.payload.password = Common.encrypt(request.payload.password);
-        request.payload.scope = "Author";
-        User.saveUser(request.payload, function(err, user) {
-            if (!err) {
-                reply("User created");
-            } else {
-                if (11000 === err.code || 11001 === err.code) {
-                    reply(Boom.forbidden("please provide another user email"))
-                } else reply(Boom.forbidden(err)) // HTTP 403
-            }
-        })
-    }
-}
-
 exports.login = {
     validate: {
         payload: {
@@ -75,29 +48,6 @@ exports.login = {
     }
 }
 
-exports.list = {
-    auth: {
-        strategy: 'token',
-        scope: 'Admin'
-    },
-    handler: function(request, reply) {
-        User.findAll( function(err, user) {
-            if (!err) {
-                reply(user)
-            } else {
-
-                return reply(Boom.badImplementation(err))
-            }
-        })
-    }
-}
-
-exports.logout = {
-    auth: 'token',
-    handler: function(request, reply) {
-    }
-}
-
 exports.forgotPassword = {
     validate: {
         payload: {
@@ -119,5 +69,88 @@ exports.forgotPassword = {
                 return reply(Boom.badImplementation(err))
              }
         })
+    }
+}
+
+exports.create = {
+    auth: {
+        strategy: 'token',
+        scope: 'Admin'
+    },
+    validate: {
+        payload: {
+            username: Joi.string().required(),
+            email: Joi.string().email().required(),
+            password: Joi.string().required()
+        }
+    },
+    handler: function(request, reply) {
+        request.payload.password = Common.encrypt(request.payload.password);
+        request.payload.scope = "Author";
+        User.saveUser(request.payload, function(err, user) {
+            if (!err) {
+                reply("User created");
+            } else {
+                if (11000 === err.code || 11001 === err.code) {
+                    reply(Boom.forbidden("please provide another user email"))
+                } else reply(Boom.forbidden(err)) // HTTP 403
+            }
+        })
+    }
+}
+
+
+exports.list = {
+    auth: {
+        strategy: 'token',
+        scope: 'Admin'
+    },
+    handler: function(request, reply) {
+        User.findAll( function(err, user) {
+            if (!err) {
+                reply(user)
+            } else {
+
+                return reply(Boom.badImplementation(err))
+            }
+        })
+    }
+}
+
+exports.getUser = {
+    validate: {
+        params: {
+            id: Joi.string().required(),
+        }
+    },
+    handler: function(request, reply) {
+        Word.findUser( request.params.id, function(err, user){
+          if (!err) {
+              reply(user)
+          } else {
+              return reply(Boom.badImplementation(err))
+          }
+        })
+    }
+}
+
+exports.remove = {
+    auth: {
+        strategy: 'token',
+        scope: 'Admin'
+    },
+    validate: {
+        params: {
+            id: Joi.string().required()
+        }
+    },
+    handler: function(request, reply) {
+      User.remove( request.params.id, function(err, word){
+        if (!err) {
+            reply("User removed")
+        } else {
+            return reply(Boom.badImplementation(err))
+        }
+      })
     }
 }

@@ -55,35 +55,41 @@ var User = new Schema({
 })
 
 User.statics.saveUser = function(requestData, callback) {
-    this.create(requestData, callback);
-};
+    this.create(requestData, callback)
+}
 
 User.statics.updateUser = function(user, callback) {
-    user.save(callback);
-};
+    user.save(callback)
+}
 
-User.statics.findUser = function(username, callback) {
+User.statics.findUser = function(id, callback) {
     this.findOne({
-        username: username
-    }, callback);
-};
+        _id: id
+    }, callback)
+}
 
 User.statics.findAll = function(callback) {
     this.find({
         scope: 'Author'
-    }, callback);
-};
+    }, callback)
+}
 
 User.statics.findUserByIdAndusername = function(id, username, callback) {
     this.findOne({
-        username: username,
-        _id: id
-    }, callback);
-};
+        _id: id,
+        username: username
+    }, callback)
+}
 
-var user = mongoose.model('user', User);
+User.statics.remove = function(id, callback) {
+    this.findOneAndRemove({
+      _id: id
+    }, callback)
+}
+
+var user = mongoose.model('user', User)
 
 /** export schema */
 module.exports = {
     User: user
-};
+}
