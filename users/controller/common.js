@@ -17,8 +17,8 @@ const smtpTransport = nodemailer.createTransport("SMTP", {
 
 exports.sentMailForgotPassword = function(user) {
     var from = Config.email.accountName+" Team<" + Config.email.username + ">"
-    var mailbody = "<p>Your "+Config.email.accountName+"  Account Credential</p><p>username : "+user.userName+" , password : "+decrypt(user.password)+"</p>"
-    mail(from, user.userName , "Account password", mailbody);
+    var mailbody = "<p>Your "+Config.email.accountName+"  Account Credential</p><p>username : "+user.username+" , password : "+decrypt(user.password)+"</p>"
+    mail(from, user.email , "Account password", mailbody);
 }
 
 exports.decrypt = function(password) {

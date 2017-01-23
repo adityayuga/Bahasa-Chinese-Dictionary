@@ -10,9 +10,18 @@ const db = require('../../config/db').db;
 var User = new Schema({
 
     /**
-      userName. It can only contain valid email id, should be unique, is required and indexed.
+      username. Should be unique, is required and indexed.
     */
     username: {
+        type: String,
+        unique: true,
+        required: true
+    },
+
+    /**
+      email. It can only contain valid email id, should be unique, is required and indexed.
+    */
+    email: {
         type: String,
         unique: true,
         required: true
@@ -53,15 +62,15 @@ User.statics.updateUser = function(user, callback) {
     user.save(callback);
 };
 
-User.statics.findUser = function(userName, callback) {
+User.statics.findUser = function(username, callback) {
     this.findOne({
-        userName: userName
+        username: username
     }, callback);
 };
 
-User.statics.findUserByIdAndUserName = function(id, userName, callback) {
+User.statics.findUserByIdAndusername = function(id, username, callback) {
     this.findOne({
-        userName: userName,
+        username: username,
         _id: id
     }, callback);
 };

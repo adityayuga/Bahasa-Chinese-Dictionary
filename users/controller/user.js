@@ -10,7 +10,8 @@ const privateKey = Config.key.privateKey
 exports.create = {
     validate: {
         payload: {
-            userName: Joi.string().email().required(),
+            username: Joi.string().required(),
+            email: Joi.string().email().required(),
             password: Joi.string().required()
         }
     },
@@ -20,7 +21,7 @@ exports.create = {
         User.saveUser(request.payload, function(err, user) {
             if (!err) {
                 var tokenData = {
-                    userName: user.userName,
+                    username: user.username,
                     scope: [user.scope],
                     id: user._id
                 };
@@ -37,12 +38,12 @@ exports.create = {
 exports.login = {
     validate: {
         payload: {
-            userName: Joi.string().email().required(),
+            username: Joi.string().required(),
             password: Joi.string().required()
         }
     },
     handler: function(request, reply) {
-        User.findUser(request.payload.userName, function(err, user) {
+        User.findUser(request.payload.username, function(err, user) {
             if (!err) {
                 if (user === null) {
                   reply(Boom.forbidden("invalid username or password"))
@@ -50,13 +51,13 @@ exports.login = {
                 if (request.payload.password === Common.decrypt(user.password)) {
 
                     var tokenData = {
-                        userName: user.userName,
+                        username: user.username,
                         scope: [user.scope],
                         id: user._id
                     }
 
                     var res = {
-                        username: user.userName,
+                        username: user.username,
                         scope: [user.scope],
                         token: Jwt.sign(tokenData, privateKey)
                     }
@@ -78,11 +79,11 @@ exports.login = {
 exports.forgotPassword = {
     validate: {
         payload: {
-            userName: Joi.string().email().required()
+            username: Joi.string().required()
         }
     },
     handler: function(request, reply) {
-        User.findUser(request.payload.userName, function(err, user) {
+        User.findUser(request.payload.username, function(err, user) {
             if (!err) {
                 if (user === null){
                   return reply(Boom.forbidden("invalid username"))
