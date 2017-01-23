@@ -6,8 +6,13 @@ const Jwt = require('jsonwebtoken')
 const User = require('../model/user').User
 
 const privateKey = Config.key.privateKey
+const tokenAlgorithms = Config.key.tokenAlgorithms
 
 exports.create = {
+    auth: {
+        strategy: 'token',
+        scope: 'Admin'
+    },
     validate: {
         payload: {
             username: Joi.string().required(),
@@ -20,11 +25,6 @@ exports.create = {
         request.payload.scope = "Author";
         User.saveUser(request.payload, function(err, user) {
             if (!err) {
-                var tokenData = {
-                    username: user.username,
-                    scope: [user.scope],
-                    id: user._id
-                };
                 reply("User created");
             } else {
                 if (11000 === err.code || 11001 === err.code) {
@@ -49,7 +49,6 @@ exports.login = {
                   reply(Boom.forbidden("invalid username or password"))
                 }
                 if (request.payload.password === Common.decrypt(user.password)) {
-
                     var tokenData = {
                         username: user.username,
                         scope: [user.scope],
@@ -59,7 +58,7 @@ exports.login = {
                     var res = {
                         username: user.username,
                         scope: [user.scope],
-                        token: Jwt.sign(tokenData, privateKey)
+                        token: Jwt.sign(tokenData, privateKey, { algorithms: tokenAlgorithms })
                     }
 
                     reply(res);
@@ -73,6 +72,12 @@ exports.login = {
                 }
             }
         })
+    }
+}
+
+exports.logout = {
+    auth: 'token',
+    handler: function(request, reply) {
     }
 }
 

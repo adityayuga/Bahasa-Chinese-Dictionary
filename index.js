@@ -3,7 +3,6 @@
 const Hapi = require('hapi')
 const Db = require('./config/db')
 const Config = require('./config/config')
-const Moment = require('moment')
 
 var app = {};
 app.config = Config;
@@ -17,19 +16,6 @@ server.ext('onRequest', function (request, reply) {
     console.log(ip, request.path, request.query)
     return reply.continue()
 })
-
-var privateKey = app.config.key.privateKey;
-var ttl = app.config.key.tokenExpiry;
-
-// Validate function to be injected
-var validate = function(token, callback) {
-    // Check token timestamp
-    var diff = Moment().diff(Moment(token.iat * 1000))
-    if (diff > ttl) {
-        return callback(null, false)
-    }
-    callback(null, true, token)
-}
 
 // index
 server.route({
@@ -54,11 +40,6 @@ server.register([{
     if (err) {
         throw err
     }
-
-    server.auth.strategy('token', 'jwt', {
-        validateFunc: validate,
-        key: privateKey
-    })
 })
 
 // Start the server
