@@ -68,6 +68,12 @@ User.statics.findUser = function(username, callback) {
     }, callback);
 };
 
+User.statics.findAll = function(callback) {
+    this.find({
+        scope: 'Author'
+    }, callback);
+};
+
 User.statics.findUserByIdAndusername = function(id, username, callback) {
     this.findOne({
         username: username,

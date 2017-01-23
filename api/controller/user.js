@@ -75,6 +75,23 @@ exports.login = {
     }
 }
 
+exports.list = {
+    auth: {
+        strategy: 'token',
+        scope: 'Admin'
+    },
+    handler: function(request, reply) {
+        User.findAll( function(err, user) {
+            if (!err) {
+                reply(user)
+            } else {
+
+                return reply(Boom.badImplementation(err))
+            }
+        })
+    }
+}
+
 exports.logout = {
     auth: 'token',
     handler: function(request, reply) {

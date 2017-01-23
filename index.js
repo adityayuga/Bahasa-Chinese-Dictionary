@@ -30,7 +30,7 @@ server.route({
 server.register([{
     register: require('hapi-auth-jwt')
 }, {
-    register: require('./users'),
+    register: require('./api')
 }], {
     routes: {
         prefix: '/api/v1'
