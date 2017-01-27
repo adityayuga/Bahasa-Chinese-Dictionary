@@ -1,7 +1,7 @@
 const Joi = require('joi')
 const Boom = require('boom')
 const Config = require('../../config/config')
-const Word = require('../model/word')
+const Word = require('../model/word').Word
 
 exports.create = {
     auth: 'token',
@@ -10,7 +10,7 @@ exports.create = {
             word: Joi.string().required(),
             py: Joi.string().required(),
             description: Joi.string().required(),
-            meaning: Joi.array().items(Joi.string().required()),
+            meaning: Joi.array().items(Joi.string().required()).required(),
             author: Joi.string().required()
         }
     },
@@ -91,21 +91,29 @@ exports.getWord = {
 exports.search = {
     handler: function(request, reply) {
 
-        if(request.q == 'undefined'){
-          request.q = ''
-        }
-
-        if(request.m){
-          if(request.m == "chinese"){
-              Word.findByWord( request.q, function(err, word) {
+        if(!request.query.q){
+          //console.log('A')
+          Word.findAll( function(err, word) {
+            if (!err) {
+                reply(word)
+            } else {
+                return reply(Boom.badImplementation(err))
+            }
+          })
+        }else if(request.query.m){
+          //console.log('B')
+          if(request.query.m == "chinese"){
+            //console.log('C')
+              Word.findByWord( request.query.q, function(err, word) {
                 if (!err) {
                     reply(word)
                 } else {
                     return reply(Boom.badImplementation(err))
                 }
               })
-          }else if(request.m == "indonesia"){
-              Word.findByMeaning( request.q, function(err, word) {
+          }else if(request.query.m == "indonesia"){
+            //console.log('D')
+              Word.findByMeaning( request.query.q, function(err, word) {
                 if (!err) {
                     reply(word)
                 } else {
@@ -113,14 +121,15 @@ exports.search = {
                 }
               })
           }
-        }
-
-        Word.findByWord( request.q, function(err, word) {
+        }else{
+          //console.log('E')
+          Word.findByWord( request.query.q, function(err, word) {
           if (!err) {
               reply(word)
           } else {
               return reply(Boom.badImplementation(err))
           }
         })
+      }
     }
 }

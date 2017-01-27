@@ -51,10 +51,10 @@ Word.statics.updateWord = function(id, word, callback) {
       description: word.description,
       meaning: word.meaning,
       author: word.author,
-      update_date: Date.now
+      update_date: new Date()
     }
 
-    Word.findOneAndUpdate(query, update, options, callback);
+    this.findOneAndUpdate(query, update, {}, callback);
 }
 
 Word.statics.findOneByWord = function(query, callback) {
@@ -63,13 +63,25 @@ Word.statics.findOneByWord = function(query, callback) {
     }, callback)
 }
 
+Word.statics.findAll = function(callback){
+    this.find(callback)
+}
+
 Word.statics.findByWord = function(query, callback) {
-    this.find({
-        word: {
-          $regex: query,
-          $options: 'i'
-        }
-    }, callback)
+    this.find({ $or : [
+      {
+          word: {
+            $regex: query,
+            $options: 'i'
+          }
+      },
+      {
+          py: {
+            $regex: query,
+            $options: 'i'
+          }
+      }
+    ]}, callback)
 }
 
 Word.statics.findOneById = function(id, callback) {
