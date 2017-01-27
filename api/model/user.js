@@ -50,6 +50,14 @@ var User = new Schema({
     isVerified: {
         type: Boolean,
         default: true
+    },
+
+    /**
+      created date. default by current date.
+    */
+    created_date: {
+      type: Date,
+      default: Date.now
     }
 
 })
