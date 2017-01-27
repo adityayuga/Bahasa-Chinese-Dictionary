@@ -16,7 +16,7 @@ exports.login = {
         }
     },
     handler: function(request, reply) {
-        User.findUser(request.payload.username, function(err, user) {
+        User.findUserbyUsername(request.payload.username, function(err, user) {
             if (!err) {
                 if (user === null) {
                   reply(Boom.forbidden("invalid username or password"))
@@ -55,7 +55,7 @@ exports.forgotPassword = {
         }
     },
     handler: function(request, reply) {
-        User.findUser(request.payload.username, function(err, user) {
+        User.findUserbyUsername(request.payload.username, function(err, user) {
             if (!err) {
                 if (user === null){
                   return reply(Boom.forbidden("invalid username"))
