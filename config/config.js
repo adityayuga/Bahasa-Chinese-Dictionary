@@ -3,13 +3,8 @@ module.exports = {
       host: 'localhost',
       port: 3000
     },
-    database: {
-        host: 'localhost',
-        port: 27017,
-        db: 'kamusAPI',
-        username: '',
-        password: ''
-    },
+    //database: "mongodb://<dbuser>:<dbpassword>@ds135519.mlab.com:35519/kamus",
+    database: "mongodb://localhost/kamusAPI",
     key: {
         privateKey: '37LvDSm4XvjYOh9Y',
         tokenAlgorithms: [ 'HS256' ],

@@ -124,7 +124,7 @@ exports.getUser = {
         }
     },
     handler: function(request, reply) {
-        Word.findUser( request.params.id, function(err, user){
+        User.findUser( request.params.id, function(err, user){
           if (!err) {
               reply(user)
           } else {

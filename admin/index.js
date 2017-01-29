@@ -1,13 +1,11 @@
 'use strict';
 
-const Route = require('./routes')
 const Auth = require('../config/auth')
+const Route = require('./routes')
 
 exports.register = function (server, options, next) {
 
-    server.auth.strategy(Auth.token.name, Auth.token.scheme, Auth.token.options)
-
-    server.realm.modifiers.route.prefix = '/api/v1'
+    server.realm.modifiers.route.prefix = '/admin'
 
     server.route(Route.routes)
 
@@ -15,7 +13,7 @@ exports.register = function (server, options, next) {
 }
 
 exports.register.attributes = {
-    name: 'api',
-    version: '1.0.0',
+    name: 'client-admin',
+    version: '0.0.1',
     pkg: require('./../package.json')
 }

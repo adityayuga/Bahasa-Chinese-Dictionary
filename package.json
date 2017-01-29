@@ -4,6 +4,7 @@
   "description": "API for kamus Indo-China China-Indo",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,9 +32,13 @@
     "glob": "^7.1.1",
     "hapi": "^13.5.3",
     "hapi-auth-jwt": "^4.0.0",
+    "inert": "^4.1.0",
     "joi": "^8.4.2",
     "moment": "^2.17.1",
     "mongoose": "^4.7.6",
     "nodemailer": "^2.7.0"
+  },
+  "engines": {
+    "node": "6.9.1"
   }
 }
