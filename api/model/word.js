@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const db = require('../../config/db').db;
+const db = require('../../config/db').db
 
 /**
  * @module  Word

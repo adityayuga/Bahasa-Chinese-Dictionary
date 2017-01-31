@@ -2,6 +2,7 @@ const Joi = require('joi')
 const Boom = require('boom')
 const Config = require('../../config/config')
 const Word = require('../model/word').Word
+const Diacritics = require('./diacritics')
 
 exports.create = {
     auth: 'token',
@@ -104,7 +105,8 @@ exports.search = {
           //console.log('B')
           if(request.query.m == "chinese"){
             //console.log('C')
-              Word.findByWord( request.query.q, function(err, word) {
+            //console.log(Diacritics.preprocessWord(request.query.q))
+              Word.findByWord( Diacritics.preprocessWord(request.query.q), function(err, word) {
                 if (!err) {
                     reply(word)
                 } else {
