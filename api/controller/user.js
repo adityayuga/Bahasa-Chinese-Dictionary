@@ -24,13 +24,13 @@ exports.login = {
                 if (request.payload.password === Common.decrypt(user.password)) {
                     var tokenData = {
                         username: user.username,
-                        scope: [user.scope],
+                        scope: user.scope,
                         id: user._id
                     }
 
                     var res = {
                         username: user.username,
-                        scope: [user.scope],
+                        scope: user.scope,
                         token: Jwt.sign(tokenData, privateKey, { algorithms: tokenAlgorithms })
                     }
 
