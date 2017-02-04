@@ -23,7 +23,7 @@ server.route({
   method: 'GET',
   path: '/',
   handler: function (request, reply) {
-    reply({ message: 'Welcome to Kamus Indonesia-Chinese API' }).code(200)
+    reply({ message: 'Welcome to Kamus Indonesia-Chinese API', ps: "Please contact yugaapik@gmail.com for additional information" }).code(200)
   }
 })
 
