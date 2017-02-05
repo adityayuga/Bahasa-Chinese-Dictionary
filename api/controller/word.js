@@ -17,8 +17,6 @@ exports.create = {
     },
     handler: function(request, reply) {
 
-        request.payload.author = "Author";
-
         Word.saveWord(request.payload, function(err, word) {
             if (!err) {
                 reply("Word created");
@@ -75,11 +73,11 @@ exports.remove = {
 exports.getWord = {
     validate: {
         params: {
-            id: Joi.string().required(),
+            word: Joi.string().required(),
         }
     },
     handler: function(request, reply) {
-        Word.getWordById( request.params.id, function(err, word){
+        Word.findOneByWord( request.params.word, function(err, word){
           if (!err) {
               reply(word)
           } else {

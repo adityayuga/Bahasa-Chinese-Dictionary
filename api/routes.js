@@ -13,7 +13,7 @@ exports.routes = [
 
   { method: 'GET', path: '/word/search', config: Word.search},
   { method: 'POST', path: '/word/create', config: Word.create},
-  { method: 'GET', path: '/word/{id}', config: Word.getWord},
+  { method: 'GET', path: '/word/{word}', config: Word.getWord},
   { method: 'PUT', path: '/word/{id}', config: Word.update},
   { method: 'DELETE', path: '/word/{id}', config: Word.remove},
 
